@@ -27,7 +27,8 @@ var niceBeachDay = true,
 	waitTime = 0,	
 	numOfWavesInSet = 4,	//a set is the number of continous waves before a noticable break with no waves.
 	remainingWaveCnt = 0,
-	surfers = ["Kelly Slater", "Duke Kahanamoku", "Sunny Garcia", "Taj Burrow"],
+	// surfers = ["Kelly Slater", "Duke Kahanamoku", "Sunny Garcia", "Taj Burrow"],
+	surfers = [],
 	slang1 = "Surf\'s Up Brah",
 	slang2 = "Goofy footed",
 	slangPhase = ""
@@ -79,6 +80,26 @@ var surfing = {
 				console.log ("Time to go SURFING!!!");
 				return (totalWaitTime);	
 			},  //end surfTime function
+		
+		//Handle JSON ARRAY data
+		handleJsonArrayData:
+			function(json) {
+				for (var i = 0; i < json.competitors.length; i++){
+					var competitor = json.competitors[i];
+					console.log ("Competitor ID: " + competitor.id + ", Name: " + competitor.name + ", Age: " + competitor.age);
+				};
+			},  //end Handle JSON ARRAY data
+			
+		//Handle JSON OBJECT data
+		handleJsonObjectData:	
+			function(json, surfer) {
+				for (var key in json.competitors){
+					var competitor = json.competitors[key];
+					surfer.push(competitor.name);
+				};
+			// console.log(surfer)
+			return (surfer);
+			},			
 			
 		//(Array Function Task): Surfers to catch wave in set.  Returns the number of remaining waves.
 		catchWave:
@@ -90,7 +111,8 @@ var surfing = {
 					i = 1
 				;
 				
-				console.log ("(Array Function Task): Output From the FOR Loop Listed Below:");
+				console.log ("(Array Function Task): Output surfer's catching waves in SET:");
+				console.log ("added 3 more competitors");
 				surfer.push("Bethany Hamilton");  //to test .push method for an Array
 				surfer.push("Lyndon Modomo"); //to test .push method for an Array
 				surfer.push("Rick Osborne"); //to test .push method for an Array.  Added one more the then number of waves to test if there are more surfers then waves.
@@ -142,14 +164,6 @@ var surfing = {
 			}  //end slangVerse function
 };
 
-//Handle JSON data
-var handleData = function(json) {
-	for (var i = 0; i < json.competitors.length; i++){
-		var competitor = json.competitors[i];
-		console.log ("Competitor ID: " + competitor.id + ", Name: " + competitor.name + ", Age: " + competitor.age);
-	};
-};
-
 
 // MAIN BODY AREA BELOW
 
@@ -170,9 +184,14 @@ console.log ("(Boolean Function Task / Returned Value):Is it a good day to surf 
 waitTime = surfing.surfTime(idealSurfTime);
 console.log ("(Number Function Task / Returned Value): The total hours the surfer's had to wait to go surfing: ", waitTime +" hrs.");
 
-//Handle JSON data
-console.log ("(JSON Data Output)");
-handleData (json2);
+//Handle JSON ARRAY data
+// console.log ("(JSON ARRAY Data Output Below)");
+// surfing.handleJsonArrayData(json2);
+
+//Handle JSON OBJECT data : passing the JSON object to the surfing Object where the surf's names are being
+//parsed and stored into any array that is returned and used in the Array Function Task
+console.log ("(JSON OBJECT Data Output Below)");
+surfers = surfing.handleJsonObjectData(json, surfers);
 
 //For Array Function Task
 surfers = surfing.catchWave(numOfWavesInSet, surfers);
