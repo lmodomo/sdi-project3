@@ -3,6 +3,7 @@
 // Data File
 // Created on: 01/06/12	
 
+// an Object of JSON data
 var json = {
 	"competitors" : {
 		"1" : {
@@ -32,6 +33,7 @@ var json = {
 };
 
 
+// an Array of JSON data
 var json2 = {
 	"competitors": [
 		{
