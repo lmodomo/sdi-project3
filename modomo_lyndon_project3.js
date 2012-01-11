@@ -25,9 +25,9 @@ var niceBeachDay = true,
 	idealSurfDay = false,
 	idealSurfTime = 14,  	//for this lab I am just using whole numbers (military time), 1 = 1:00, 2 = 2:00 ... 24 = 12:00 midnight, etc...
 	waitTime = 0,	
+	personObject = {},
 	numOfWavesInSet = 4,	//a set is the number of continous waves before a noticable break with no waves.
 	remainingWaveCnt = 0,
-	// surfers = ["Kelly Slater", "Duke Kahanamoku", "Sunny Garcia", "Taj Burrow"],
 	surfers = [],
 	slang1 = "Surf\'s Up Brah",
 	slang2 = "Goofy footed",
@@ -36,9 +36,7 @@ var niceBeachDay = true,
 
 
 //Define the surfing Object
-var surfing = {
-		purpose: "",
-						
+var surfing = {						
 		// (Procedure Task): Check to see if it is a nice beach day or not
 		goodBeachDay: 
 			function (goodDay) { 
@@ -49,6 +47,7 @@ var surfing = {
 				}
 			},  //end goodDayForBeach function
 
+			
 		// (Boolean Function Task): Check to see if it will be a sunny day and check to see if "Surf's Up!"
 		goodSurfDay:
 			function (sunny, niceWaves) { 
@@ -61,6 +60,7 @@ var surfing = {
 				}
 			},  //end goodSurfDay function
 
+			
 		//(Number Function Task): Determine if it is the ideal time of day to go out and surf
 		surfTime:
 			function (timeOfDay) { 
@@ -69,7 +69,7 @@ var surfing = {
 					totalWaitTime = 0
 				;
 
-				console.log ("(Number Function Task) Output From The While Loop Listed Below:");
+				console.log ("(Number Function Task : Below is the Output From The While loop): Listing shows the number of hrs remaining before the surf is at it's best.");
 				totalWaitTime = timeOfDay - currentTime;
 				
 				while (currentTime < timeOfDay) {
@@ -81,6 +81,33 @@ var surfing = {
 				return (totalWaitTime);	
 			},  //end surfTime function
 		
+
+		//(JSON Object Argument, Returns a Javascript Object): Extracting the JSON data and returning a Javascript object	
+		extractEarlierSignUps:
+			function (json) {
+				personObj = {};
+				for (var key in json.competitors){
+					var	competitor = json.competitors[key];
+
+						personObj[key] = new Object ();
+						personObj[key].id = competitor.id;
+						personObj[key].name = competitor.name;
+						personObj[key].age = competitor.age;
+				};			
+			return (personObj);  //returns the person Object
+			},  //end Handle JSON Object function			
+
+		//Add a new early signup surfer to the personObject
+		addToEarlySignup:
+			function (personObject, id, name, age) { 
+				personObject[id] = new Object ();
+				personObject[id].id = id;
+				personObject[id].name = name;
+				personObject[id].age = age;
+				return (personObject);
+			},		
+		
+/*			
 		//Handle JSON ARRAY data
 		handleJsonArrayData:
 			function(json) {
@@ -89,17 +116,33 @@ var surfing = {
 					console.log ("Competitor ID: " + competitor.id + ", Name: " + competitor.name + ", Age: " + competitor.age);
 				};
 			},  //end Handle JSON ARRAY data
+
 			
-		//Handle JSON OBJECT data
+		//Handle JSON OBJECT function
 		handleJsonObjectData:	
 			function(json, surfer) {
 				for (var key in json.competitors){
 					var competitor = json.competitors[key];
 					surfer.push(competitor.name);
-				};
-			// console.log(surfer)
-			return (surfer);
-			},			
+				};			
+			return (surfer);  //returns the surfer Array
+			},  //end Handle JSON Object function			
+*/
+
+		//(Method Mutator): Add Competitors to the Array
+		addCompetitor:
+			function (surferArray, surferName) { 
+				surferArray.push(surferName);
+			}, //end addCompetitor
+
+			
+		//(Method Accessor): Get the new competitor's name who in line to catch the next wave
+		getCompetitor:
+				function (surferArray) { 
+					return (surferArray[0]);
+				}, 	//end getCompetitor
+			
+
 			
 		//(Array Function Task): Surfers to catch wave in set.  Returns the number of remaining waves.
 		catchWave:
@@ -108,18 +151,21 @@ var surfing = {
 					percentOfWavesInSet = 0,
 					x = 1,
 					totalNumOfSets = 2,
-					i = 1
+					i = 1,
+					nextSurfer = ""
 				;
 				
+				//Method Mutator : Pushes a new competitor into the end of the array.
+				surfing.addCompetitor(surfer, "Bethany Hamilton");
+				surfing.addCompetitor(surfer, "Lyndon Modomo");
+				surfing.addCompetitor(surfer, "Rick Osborne");
+				console.log ("(Method Mutator): added 3 more competitors");
+				console.log (surfer);
 				console.log ("(Array Function Task): Output surfer's catching waves in SET:");
-				console.log ("added 3 more competitors");
-				surfer.push("Bethany Hamilton");  //to test .push method for an Array
-				surfer.push("Lyndon Modomo"); //to test .push method for an Array
-				surfer.push("Rick Osborne"); //to test .push method for an Array.  Added one more the then number of waves to test if there are more surfers then waves.
-				console.log ("There are " + wavesInSet + " waves in a set today, and there are " + surfer.length + " surfers ready to catch the waves.");
+				console.log ("There are " + wavesInSet + " waves in a set today, and there are " + surfer.length + " surfers ready to catch the waves. " + totalNumOfSets + " sets of waves and surfers listed below:");
 				
 				while (x <= totalNumOfSets) {   //loops through the number of SETs we want to run sample date on
-					console.log ("SET OF WAVE NUMBER: " + x);
+					console.log ("SET OF WAVES: " + x);
 					if (surfer.length <= wavesInSet) {   //heck if there are less surfers then waves in a set
 						while (i <= wavesInSet) {
 							if (numOfWaves <= surfer.length) {
@@ -150,6 +196,10 @@ var surfing = {
 					i = 1;
 					x++;
 				};
+				
+				//Method Accessor: Gets the next surfer in line to catch the first wave in the next set of waves.
+				nextSurfer = surfing.getCompetitor(surfer);
+				console.log ("(Method Accessor) " + nextSurfer + " will be the next surfer to catch the first wave when the next set of waves arrive.");
 				return (surfer);	
 			},  //end catchWave function
 
@@ -167,12 +217,6 @@ var surfing = {
 
 // MAIN BODY AREA BELOW
 
-//Method Mutator
-surfing.purpose = "The purpose of a surf Object is to have a container for storing surfing properties.  This helps to display the information below.";
-
-//Method Accessor
-console.log ("(Accessor / Returned Value): " + surfing.purpose);
-
 //For Procedure Task.
 surfing.goodBeachDay (niceBeachDay);
 
@@ -180,23 +224,32 @@ surfing.goodBeachDay (niceBeachDay);
 idealSurfDay = surfing.goodSurfDay (sunnyDay, surfsUp);
 console.log ("(Boolean Function Task / Returned Value):Is it a good day to surf : ", idealSurfDay);
 
+//Extract the Competitors from a JSON Object, and return a Javascript object. Then add another competitor to the object
+personObject = surfing.extractEarlierSignUps(json);
+personObject = surfing.addToEarlySignup(personObject, 5, "Josh Donlan", 18);
+console.log ("(JSON Object / Returned Javascript Object with a new competitor added)");
+console.log (personObject);
+
 //For Number Function Task
 waitTime = surfing.surfTime(idealSurfTime);
-console.log ("(Number Function Task / Returned Value): The total hours the surfer's had to wait to go surfing: ", waitTime +" hrs.");
+console.log ("(Number Function Task / Returned Value): The total hours the surfer's had to wait before going surfing: ", waitTime +" hrs.");
 
 //Handle JSON ARRAY data
-// console.log ("(JSON ARRAY Data Output Below)");
-// surfing.handleJsonArrayData(json2);
+//console.log ("(JSON ARRAY Data Output Below)");
+//surfing.handleJsonArrayData(json2);
 
 //Handle JSON OBJECT data : passing the JSON object to the surfing Object where the surf's names are being
-//parsed and stored into any array that is returned and used in the Array Function Task
-console.log ("(JSON OBJECT Data Output Below)");
+//parsed and stored into any array that is returned and used in the Array Function Task below
+console.log ("(JSON OBJECT used as the input.  The input is put into an Array which the contents are listed below.)");
 surfers = surfing.handleJsonObjectData(json, surfers);
+console.log (surfers);
 
 //For Array Function Task
 surfers = surfing.catchWave(numOfWavesInSet, surfers);
-console.log ("(Array Function Task / Returned Value):Array values: ", surfers);
+console.log ("(Array Function Task / Returned Value): Here is a list of competitors in the surf contest: ", surfers);
 
 //For String Function Task
 slangPhase = surfing.slangVerse(slang1, slang2);
 console.log (slangPhase);
+
+console.log (surfing);
