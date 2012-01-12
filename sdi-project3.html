@@ -13,28 +13,36 @@
 <p>I selected a surfing theme.  I selected this theme since I surfed all the time growing up in Hawaii.  
 Unfortunately, I only get to the beach a few times a year now.</p>
 
-<p>In this lab (Lab3) I have first decided to refactor my code from Lab2, and put all the surfing content 
-into an object, then in main body of the program, calls are made to items in the object.</p>
+<p>In this lab (Lab3) I have decided to FIRST refactor my code from Lab2, and put all the surfing elements 
+into an object, then in main body of the program, calls are made to elements in the object.</p>
 
 <p>In addition to the above I added the following:</p>
 <ol>
-<li>I have added more math in the Array Function Task area.  I have added math to calculate the percentage 
-of waves that have passed.
-</li>
-
-<li>In the Array Function Task area, I added nested while loops and nested conditional statements so the surfers 
-who catch a wave are taken off (shift) from the front of the array and put (push) on the end of the array (just so 
+<li>I have changed the story slightly in Lab3.  In this lab I am adding in a surfing competition angle.  So I feed
+the application a JSON file of data.  The data in this file represent those surfers who have signed up early for
+the competition.  This file only contains ID, name and age. For the lab purpose it does not contain all the real
+life data items.  Once I extract the data from the JSON file, I add one competitor (Josh Donlan), and show this 
+in the console.log. 
+</li><br>
+<li>
+I then take the data from the Object above, and created an array of surfer names only (for the early registers).
+</li><br>
+<li>
+Added a Method Mutator to push three new competitors into the array of surfers.  This represents surfers,
+who are signing up during the day of the surf meet.
+</li><br>
+<li>In the Array Function Task area, I added nested while loops and nested conditional statements, so the surfers 
+who catch a wave are taken off (.shift) from the front of the array and put (.push) on the end of the array (just so 
 I could test the array methods).  If there are more surfers then waves in a wave SET (a SET is X number of 
-continuous waves before a noticable break with no waves.), then during the next SET you will see the next surfer 
+continuous waves before a noticeable break with no waves.), then during the next SET you will see the next surfer 
 in line catching the wave.  AGAIN, I did this to test array methods.  NOT sure I would do this in real life. In real
 life, I may opt to just move the index number.
-</li>
-
-<li>Add a JSON.js file which contains an array of items and an object of data which will be used for passing an object
-argument and to return and object.  Instead of have a static array like in lab2, I am dynamically creating the contents
-of the array by passing the JSON object to a function, and the function builds the array of surfers and returns the
-array.  This array is then used in the next function.
-</li>
+</li><br>
+<li>Added more math in the Array Function Task area.  I have added math to calculate the percentage of waves that 
+have passed.
+</li><br><li>
+Added a Method Accessor that gets the next surfer in line to catch the first wave in the next set of waves.
+</li><br>
 
 </ol>
 
