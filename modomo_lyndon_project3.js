@@ -3,11 +3,10 @@
 // Created on: 01/05/12
 
 /* Comment:  
-SEE THE ITEMS I CHANGE FROM LAB2 IN THE OUTPUT OF MY SDI-PROJECT3.HTML FILE.
+SEE THE ITEMS I CHANGED FROM LAB2 IN THE OUTPUT OF MY SDI-PROJECT3.HTML FILE.
 */
 
 // Define & set Global variables for this JS file
-
 var	niceBeachDay = true,
 	idealSurfDay = false,
 	personObject = {},
@@ -34,10 +33,11 @@ var surfing = {
 			function (goodDay) { 
 				if (goodDay === true) {   
 					console.log ("(Method Function): It is a great day for the beach!!");
+					return (true);
 				}else {
 					console.log ("(Method Function): It is NOT a great day for the beach, bummer dude...");
+					return (false);
 				}
-			return (goodDay); 	
 			},  //end goodDayForBeach function
 
 			
@@ -64,7 +64,7 @@ var surfing = {
 						this.personObj[key].name = competitor.name;
 						this.personObj[key].age = competitor.age;
 				};			
-			return (this.personObj);  //returns the person Object
+				return (this.personObj);  //returns the person Object
 			},  //end extractEarlierSignUps function
 
 
@@ -104,7 +104,7 @@ var surfing = {
 				for (var key in personObject){
 					this.surferArray.push(personObject[key].name);
 			};			
-		return (this.surferArray);  //returns the array of Surfers from the early sign ups.
+			return (this.surferArray);  //returns the array of Surfers from the early sign ups.
 		},  //end getEarlySignUpsOfSurfers function	
 			
 			
@@ -112,6 +112,7 @@ var surfing = {
 		addCompetitor:
 			function (surferArray, surferName) { 
 				surferArray.push(surferName);
+			return (surferArray);
 			}, //end addCompetitor
 
 			
@@ -192,13 +193,13 @@ var surfing = {
 
 // MAIN BODY AREA BELOW
 
-//Calls a "Method Function"
+//Calls a "Method Function" :: Conditional Statement
 if (surfing.goodBeachDay (niceBeachDay)) {
 
-	//Calls a "Method Function"
+	//Calls a "Method Function" :: Returns
 	idealSurfDay = surfing.goodSurfDay ();
 	if (idealSurfDay) {
-		console.log ("(Method Function):Is it a good day for a surf meet: ", idealSurfDay);
+		console.log ("(Returned Boolean):Is it a good day for a surf meet: ", idealSurfDay);
 
 		//Extract the Competitors from a JSON Object, and return a Javascript object. Then add one competitor to the object
 		personObject = surfing.extractEarlierSignUps(json);
