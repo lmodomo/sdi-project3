@@ -15,25 +15,29 @@ var json = {
 		"1" : {
 			"id": 1,
 			"name": "Kelly Slater", 
-			"age": 30
+			"age": 30,
+			"board" : { make : "Town & Country", size : 6.5, nose : "pointed"} 
 		},
 		
 		"2" : {
 			"id": 2,
 			"name": "Duke Kahanamoku", 
-			"age": 100
+			"age": 100,
+			"board" : { make : "Dick Brewer", size : 9, nose : "blunt"} 
 		},
 		
 		"3" : {
 			"id": 3,
 			"name": "Sunny Garcia", 
-			"age": 75
+			"age": 75,
+			"board" : { make : "BoardMaker", size : 10, nose : "blunt"} 
 		},
 		
 		"4" : {
 			"id": 4,
 			"name": "Bethany Hamilton",
-			"age": 30
+			"age": 30,
+			"board" : { make : "Town & Country", size : 5, nose : "pointed"} 
 		}
 	}
 };
