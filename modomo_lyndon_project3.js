@@ -45,7 +45,7 @@ var surfing = {
 		// (Method Function): Check to see if it will be a sunny day and check to see if "Surf's Up!"
 		goodSurfDay: function () { 
 			surfing.surfsUpTrue (true);   //Calls a "Method Mutator". Set the surfsUp object property
-			console.log ("(Method Mutator): Set the property surfsUpTrue to always be true")
+			console.log ("(Method Mutator): Set the property surfsUpTrue to always be true");
 			if (this.sunnyDay && this.surfsUp) {   
 				console.log ("(Method Function): It is a great day for a surf meet because the sun is out and Surf's Up Brah!!! THE SURF MEET IS ON!!");
 				return (true);
@@ -76,7 +76,7 @@ var surfing = {
 		},  //end extractEarlierSignUps function
 
 
-		//Add one new early signup surfer to the personObject
+		//(Method Function) : Add one new early signup surfer to the personObject
 		addToEarlySignup: function (personObject, id, name, age) { 
 			personObject[id] = new Object ();
 			personObject[id].id = id;
@@ -228,7 +228,7 @@ if (surfing.goodBeachDay (niceBeachDay)) {
 		surfing.surfTime(idealSurfTime);
 		
 		//Calls a "Method Function" : Returns Number
-		waitTime = surfing.waitTime(waitTime);
+		waitTime = surfing.waitTime();
 		console.log ("(Method Function / Returned Number): The total hours the surfer's had to wait before going surfing: ", waitTime +" hrs.");
 
 		//Calls a "Method Function" : (Creates an array, from an object, of those surfers who signed up early for the surf meet
