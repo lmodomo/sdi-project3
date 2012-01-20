@@ -11,6 +11,7 @@ var	niceBeachDay = true,
 	idealSurfDay = false,
 	personObject = {},
 	idealSurfTime = 14,  //using whole numbers (military time), 1 = 1:00, 2 = 2:00 ... 24 = 12:00 midnight, etc...
+	waitTime = 0,
 	surfers = [], 
 	nextSurfer = "",
 	slang1 = "Surf\'s Up Brah",
@@ -21,90 +22,99 @@ var	niceBeachDay = true,
 //Define the SURFING OBJECT
 var surfing = {						
 		sunnyDay: true,
-		surfsUp: true,
+		surfsUp: false,
 		personObj: {},
+		totalWaitTime: 0,
 		surferArray: [],
 		numOfWavesInSet: 4,	//a set is X number of continuous waves before a noticeable break with no waves.
 		numOfCompetitors: 0,
 		slang2: "Goofy footed",
 		
 		// (Method Function): Check to see if it is a nice beach day or not
-		goodBeachDay: 
-			function (goodDay) { 
-				if (goodDay === true) {   
-					console.log ("(Method Function): It is a great day for the beach!!");
-					return (true);
-				}else {
-					console.log ("(Method Function): It is NOT a great day for the beach, bummer dude...");
-					return (false);
-				}
-			},  //end goodDayForBeach function
+		goodBeachDay: function (goodDay) { 
+			if (goodDay === true) {   
+				console.log ("(Method Function): It is a great day for the beach!!");
+				return (true);
+			}else {
+				console.log ("(Method Function): It is NOT a great day for the beach, bummer dude...");
+				return (false);
+			}
+		},  //end goodDayForBeach function
 
 			
 		// (Method Function): Check to see if it will be a sunny day and check to see if "Surf's Up!"
-		goodSurfDay:
-			function () { 
-				if (this.sunnyDay && this.surfsUp) {   
-					console.log ("(Method Function): It is a great day for a surf meet because the sun is out and Surf's Up Brah!!! THE SURF MEET IS ON!!");
-					return (true);
-				}else {     
-					console.log ("(Method Function): It is NOT a great day to surf, nor is it a great day for a surf meet.");
-					return (false);
-				}
-			},  //end goodSurfDay function
+		goodSurfDay: function () { 
+			surfing.surfsUpTrue (true);   //Calls a "Method Mutator". Set the surfsUp object property
+			if (this.sunnyDay && this.surfsUp) {   
+				console.log ("(Method Function): It is a great day for a surf meet because the sun is out and Surf's Up Brah!!! THE SURF MEET IS ON!!");
+				return (true);
+			}else {     
+				console.log ("(Method Function): It is NOT a great day to surf, nor is it a great day for a surf meet.");
+				return (false);
+			}
+		},  //end goodSurfDay function
+
+			
+		// (Method Mutator): Set the surfsUp object property
+		surfsUpTrue: function (boolean) { 
+			this.surfsUp = boolean;
+		},  //end surfsUpTrue function
 		
 
 		//(JSON Object Argument, Returns a Javascript Object): Extracting the JSON data and returning a Javascript object	
-		extractEarlierSignUps:
-			function (json) {			
-				for (var key in json.competitors){
-					var	competitor = json.competitors[key];
-						this.personObj[key] = new Object (); 
-						this.personObj[key].id = competitor.id;
-						this.personObj[key].name = competitor.name;
-						this.personObj[key].age = competitor.age;
-				};			
-				return (this.personObj);  //returns the person Object
-			},  //end extractEarlierSignUps function
+		extractEarlierSignUps: function (json) {			
+			for (var key in json.competitors){
+				var	competitor = json.competitors[key];
+					this.personObj[key] = new Object (); 
+					this.personObj[key].id = competitor.id;
+					this.personObj[key].name = competitor.name;
+					this.personObj[key].age = competitor.age;
+			};			
+			return (this.personObj);  //returns the person Object
+		},  //end extractEarlierSignUps function
 
 
 		//Add one new early signup surfer to the personObject
-		addToEarlySignup:
-			function (personObject, id, name, age) { 
-				personObject[id] = new Object ();
-				personObject[id].id = id;
-				personObject[id].name = name;
-				personObject[id].age = age;
-				return (personObject);
-			},	//end addToEarlySignup function	
+		addToEarlySignup: function (personObject, id, name, age) { 
+			personObject[id] = new Object ();
+			personObject[id].id = id;
+			personObject[id].name = name;
+			personObject[id].age = age;
+			return (personObject);
+		},	//end addToEarlySignup function	
 
 				
 		//(Method Procedure): Determine if it is the ideal time of day to go out and surf
-		surfTime:
-			function (timeOfDay) { 
-				var	currentTime = 8,		//for this lab this should be less then "timeOfDay". Using whole numbers (military time), 1 = 1:00, 2 = 2:00 ... 24 = 12:00 midnight, etc...
-					timeRemaining = 0
-				;
+		surfTime: function (timeOfDay) { 
+			var	currentTime = 8,	//for this lab this should be less then "timeOfDay". Using whole numbers (military time), 1 = 1:00, 2 = 2:00 ... 24 = 12:00 midnight, etc...			
+				timeRemaining = 0
+			;
 
-				console.log ("((Method Procedure): Below is the Output From The While loop): Listing shows the number of hrs remaining before the surf is at it's best.");
-				totalWaitTime = timeOfDay - currentTime;
+			console.log ("((Method Procedure): Below is the Output From The While loop): Listing shows the number of hrs remaining before the surf is at it's best.");
+			this.totalWaitTime = timeOfDay - currentTime;  //Math
 					
-				while (currentTime < timeOfDay) {
-					timeRemaining = timeOfDay - currentTime;
-					console.log ("Current time is " + currentTime +":00.  The ideal time to surf is at " + timeOfDay + ":00.  There is " + timeRemaining + " hrs. remaining till SURF TIME!!!");
-					currentTime = currentTime + 1;
-				};
-				console.log ("Time to go SURFING!!!");
-			},  //end surfTime function
+			while (currentTime < timeOfDay) {
+				timeRemaining = this.totalWaitTime;
+				console.log ("Current time is " + currentTime +":00.  The ideal time to surf is at " + timeOfDay + ":00.  There is " + timeRemaining + " hrs. remaining till SURF TIME!!!");
+				currentTime = currentTime + 1;  //Math
+			};
+			console.log ("Time to go SURFING!!!");
+		},  //end surfTime function
 
 
-		//extract the list of early signups for the surf competition
+		// (Method Function): Return Number
+		waitTime: function () { 
+			return (this.totalWaitTime);
+		},  //end waitTime function
+
+		
+		// (Method Function): extract the list of early signups for the surf competition, for an object.
 		getEarlySignUpsOfSurfers:
 			function (personObject) {
 				for (var key in personObject){
 					this.surferArray.push(personObject[key].name);
 			};			
-			return (this.surferArray);  //returns the array of Surfers from the early sign ups.
+			return (this.surferArray);  //returns the array of Surfers for the early sign ups.
 		},  //end getEarlySignUpsOfSurfers function	
 			
 			
@@ -112,7 +122,6 @@ var surfing = {
 		addCompetitor:
 			function (surferArray, surferName) { 
 				surferArray.push(surferName);
-			return (surferArray);
 			}, //end addCompetitor
 
 			
@@ -123,7 +132,7 @@ var surfing = {
 			}, //end getNumOfSurfers
 			 
 			
-		//(Method Accessor): Get the new competitor's name who is in line to catch the next wave
+		//(Method Accessor): Get the next competitor's name who is in line to catch the next wave
 		getCompetitor:
 				function (surfersArray) { 
 					return (surfersArray[0]);
@@ -140,8 +149,15 @@ var surfing = {
 					i = 1
 				;
 				
+				//Call a "Method Mutator" : Pushes new competitors into the end of an array.
+				surferArray = surfer;
+				surfing.addCompetitor(surferArray, "Lyndon Modomo");
+				surfing.addCompetitor(surferArray, "Rick Osborne");
+				console.log ("(Method Mutator): added 2 more competitors: This represents surfers who are signing up during the day of the surf meet.");
+				console.log (surferArray);
+				
 				console.log ("(Array Function Task): Surfer's catching waves in SET.  A SET is X number of continuous waves before a noticeable break with no waves.");
-				this.numOfCompetitors = surfing.getNumOfSurfers (surfer);
+				this.numOfCompetitors = surfing.getNumOfSurfers (surferArray);
 				console.log ("There are " + this.numOfWavesInSet + " waves in a set today, and there are " + this.numOfCompetitors + " surfers ready to catch the waves. " + totalNumOfSets + " sets of waves and surfers listed below:");
 				
 				while (x <= totalNumOfSets) {   //loops through the number of SETs we want to run sample date on
@@ -193,35 +209,40 @@ var surfing = {
 
 // MAIN BODY AREA BELOW
 
-//Calls a "Method Function" :: Conditional Statement
+//Conditional Statement :: Calls a "Method Function" :: Returns a Boolean
 if (surfing.goodBeachDay (niceBeachDay)) {
 
-	//Calls a "Method Function" :: Returns
+	//Calls a "Method Function" :: Returns Boolean
 	idealSurfDay = surfing.goodSurfDay ();
 	if (idealSurfDay) {
 		console.log ("(Returned Boolean):Is it a good day for a surf meet: ", idealSurfDay);
 
-		//Extract the Competitors from a JSON Object, and return a Javascript object. Then add one competitor to the object
+		//Calls two "Method Functions" ::  Returned Object :: Extract the Competitors from a JSON Object, and return a Javascript object. Then add one competitor to the object
 		personObject = surfing.extractEarlierSignUps(json);
 		personObject = surfing.addToEarlySignup(personObject, 5, "Josh Donlan", 18);
 		console.log ("((Returned Object) : JSON Object Argument / Returned an Object with a new competitor added): ", personObject);
 
 		//Calls a "Method Procedure"
 		surfing.surfTime(idealSurfTime);
-		// console.log ("(Number Function Task / Returned Value): The total hours the surfer's had to wait before going surfing: ", waitTime +" hrs.");
+		
+		//Calls a "Method Function" : Returns Number
+		waitTime = surfing.waitTime();
+		console.log ("(Returned Number): The total hours the surfer's had to wait before going surfing: ", waitTime +" hrs.");
 
-		//(Creates an array, from an object, of those surfers who signed up early for the surf meet
+		//Calls a "Method Function" : (Creates an array, from an object, of those surfers who signed up early for the surf meet
 		surfers = surfing.getEarlySignUpsOfSurfers (personObject);
 		console.log ("(Return Array): Created an ARRAY, from an OBJECT, of those surfers who signed up early for the surf meet.  See array below.");
 		console.log (surfers);
 
+/*
 		//Call a "Method Mutator" : Pushes a new competitor into the end of the array.
 		surfing.addCompetitor(surfers, "Lyndon Modomo");
 		surfing.addCompetitor(surfers, "Rick Osborne");
 		console.log ("(Method Mutator / Returned Array): added 2 more competitors: This represents surfers who are signing up during the day of the surf meet.");
 		console.log (surfers);
+*/
 
-		//Array Argument / Returned Array
+		//Calls a "Method Function" :: Returned Array
 		surfers = surfing.catchWave(surfers);
 		console.log ("(Array Argument / Returned Array): Here is a list of competitors in the surf contest: ", surfers);
 
@@ -229,7 +250,7 @@ if (surfing.goodBeachDay (niceBeachDay)) {
 		nextSurfer = surfing.getCompetitor(surfers);
 		console.log ("(Method Accessor) " + nextSurfer + " will be the next surfer to catch the first wave when the next set of waves arrive.");
 
-		//For String Function Task
+		//Calls a "Method Function" :: Returned String
 		slangPhase = surfing.slangVerse(slang1);
 		console.log (slangPhase);
 
